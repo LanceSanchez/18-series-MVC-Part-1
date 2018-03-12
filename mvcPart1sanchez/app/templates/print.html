@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<title>IIT Boarding House</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="{{ url_for('static', filename='w3.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link href="{{ url_for('static', filename='w1.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+</style>
+<body class="w3-black">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+  <a href="/" class="w3-bar-item w3-button w3-padding-large w3-black">
+    <i class="glyphicon glyphicon-home fa-3x"></i>
+    <p>HOME</p>
+  </a>
+  <a href="/add" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="glyphicon glyphicon-plus-sign fa-3x"></i>
+    <p>Add</p>
+  </a>
+  <a href="/view/1" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="glyphicon glyphicon-list fa-3x"></i>
+    <p>Manage Tenants</p>
+  </a>
+
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="/" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+    <a href="/add" class="w3-bar-item w3-button" style="width:25% !important">Add</a>
+    <a href="/view/1" class="w3-bar-item w3-button" style="width:25% !important">Manage Tenants</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+    <h1 class="w3-jumbo"><span class="w3-hide-small">IIT</span> Boarding House Tenant</h1>
+    <p>Manage Tenant</p><br><br>
+  </header>
+<body>
+
+
+
+     <div class="container">
+		 <form action = "/searchGet/1" method = "POST">
+			 <font color="black"><input type="text" name = "search" placeholder="search ..."/></font><br></form><br>
+        <table  class="w3-table w3-striped w3-white">
+	<thead>
+	<td><div style="text-align: center"><h4>Id Number</h4></div></td>
+	<td><div style="text-align: center"><h4>First Name</h4></div></td>
+	<td><div style="text-align: center"><h4>Middle Name</h4></div></td>
+	<td><div style="text-align: center"><h4>Last Name</h4></div></td>
+	<td><div style="text-align: center"><h4>Sex</h4></div></td>
+	<td><div style="text-align: center"><h4>Home Address</h4></div></td>
+	<td><div style="text-align: center"><h4>Course</h4></div></td>
+	<td><div style="text-align: center"><h4>Birth Date</h4></div></td>
+
+	</thead>
+	{% for pag in pags.items %}
+		<tr>
+			<form action = "{{ url_for('delete') }}" method = "POST">
+				<td><div style="text-align: center">{{pag.id}}</div></td>
+            <td><div style="text-align: center">{{pag.fname}}</div></td>
+			<td><div style="text-align: center">{{pag.mname}}</div></td>
+			<td><div style="text-align: center">{{pag.lname}}</div></td>
+				<td><div style="text-align: center">{{pag.sex}}</div></td>
+			<td><div style="text-align: center">{{pag.addressHome}}</div></td>
+			<td><div style="text-align: center">{{pag.course}}</div></td>
+			<td><div style="text-align: center">{{pag.birth_date}}</div></td>
+			<td><input type="hidden" name="Store" value = {{pag.id}}></td>
+			<td><input type ="submit" class="btn btn-primary" value ="Delete"></td>
+			<td><input type ="submit" class="btn btn-primary" formaction = "/updateGet" value ="Update"></td>
+			</form>
+		</tr>
+	{% endfor %}
+		<div class="footer" style="text-align: center">
+		{% for page in pags.iter_pages(left_edge=3,right_edge=3,left_current=3,right_current=3) %}
+
+			{% if page %}
+
+				<a href="{{ url_for('view', page_num=page) }}">{{ page }}</a>
+			{% else %}
+				...
+			{% endif %}
+
+		{% endfor %}
+		</div>
+
+
+
+	</table>
+	 </div>
+
+</body>
+
+
+
+</html>
